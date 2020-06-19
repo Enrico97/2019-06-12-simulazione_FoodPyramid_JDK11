@@ -1,14 +1,19 @@
 package it.polito.tdp.food;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import it.polito.tdp.food.model.Condiment;
 import it.polito.tdp.food.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
 
 public class FXMLController {
 	
@@ -25,6 +30,9 @@ public class FXMLController {
 
     @FXML
     private Button btnCreaGrafo;
+    
+    @FXML
+    private TextArea txtResult;
 
     @FXML
     private ComboBox<?> boxIngrediente;
@@ -39,7 +47,12 @@ public class FXMLController {
 
     @FXML
     void doCreaGrafo(ActionEvent event) {
-
+    	txtResult.clear();
+    	List<Condiment> lista = new ArrayList<>(model.creaGrafo(Double.parseDouble(txtCalorie.getText())).vertexSet());
+    	Collections.sort(lista);
+    	for(Condiment c : lista) {
+    		txtResult.appendText(c.getDisplay_name()+" | "+c.getCondiment_calories()+" --> "+model.tot(Double.parseDouble(txtCalorie.getText()), c.getCondiment_id())+"\n");
+    	}
     }
 
     @FXML
